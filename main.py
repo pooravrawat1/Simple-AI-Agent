@@ -1,10 +1,10 @@
 from mcp import ClientSession, StudioServerParameters
-from mcp.client.studio import studio_client
+from mcp.client.stdio import stdio_client
 from langchain_mcp_adapters.tools import load_mcp_tools
 from langgraph.prebuilt import create_react_agent
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
-import aysyncio
+import asyncio
 import os
 
 load_dotenv()
@@ -52,7 +52,7 @@ async def main():
                     print("\nAI >", ai_message)
                 except Exception as e:
                     print(f"Error: {e}")
-                    
+
     if __name__ == "__main__":
         asyncio.run(main())
 
