@@ -1,4 +1,4 @@
-from mcp import ClientSession, StudioServerParameters
+from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from langchain_mcp_adapters.tools import load_mcp_tools
 from langgraph.prebuilt import create_react_agent
@@ -13,7 +13,7 @@ model = ChatOpenAI(model="gpt-4",
                    temperature=0,
                    openai_api_key=os.getenv("OPENAI_API_KEY"))
 
-server_params = StudioServerParameters(
+server_params = StdioServerParameters(
     command = "npx",
     env = {
         "FIRECRAWL_API_KEY" : os.getenv("FIRECRAWL_API_KEY"),
