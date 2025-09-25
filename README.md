@@ -35,16 +35,6 @@ Design/behavior notes:
 
 Additional (transitive) packages (found in `uv.lock`): httpx, httpcore, pydantic, jsonschema, anyio and many others used by the LangChain/LangGraph stack.
 
-## Files of interest
-
-- `main.py` — the interactive entrypoint. Key responsibilities:
-	- Loads environment variables with `python-dotenv`.
-	- Creates an OpenAI model instance via `ChatOpenAI`.
-	- Starts an MCP stdio client using `npx firecrawl-mcp` and loads available tools.
-	- Builds a ReAct agent via `create_react_agent` and runs an interactive CLI loop.
-- `pyproject.toml` — declares project metadata and main Python dependencies (`langchain-mcp-adapters`, `langchain-openai`, `langgraph`, `python-dotenv`).
-- `uv.lock` — lockfile listing resolved dependency versions for reproducible installs.
-
 ## Quickstart
 
 Prerequisites
@@ -95,32 +85,4 @@ Usage
 - Ask questions or give commands. The agent may call the Firecrawl tools (if available) to fetch or crawl pages.
 - Type `quit` to exit.
 
-## Expected inputs/outputs and error modes
-
-- Inputs: free-text user prompts (stdin). Long inputs are truncated to a safe size in `main.py`.
-- Outputs: the agent's reply printed to stdout. If an exception occurs, the code prints `Error:` followed by the exception.
-- Common failure modes:
-	- Missing environment variables (`OPENAI_API_KEY`, `FIRECRAWL_API_KEY`) — agent will fail to construct or call external services.
-	- `npx` / Node.js not installed — MCP stdio client cannot start Firecrawl.
-	- Network connectivity or API quota errors from OpenAI / Firecrawl.
-
-## Security & privacy
-- Do not commit `.env` files containing API keys. Add them to `.gitignore`.
-- Be mindful that web scraping tools may collect personal data; follow legal and ethical guidelines.
-
-## Next steps / ideas
-- Add a `requirements.txt` or provide a `poetry`/`pip` lockfile for easier installs.
-- Add command-line flags to `main.py` for non-interactive runs (e.g., `--prompt` to run a single prompt and exit).
-- Add tests for the agent initialization and tool-loading code paths using local mocks for the MCP server.
-
-## Development notes
-- The code uses `asyncio.run(main())` in the `__main__` block and expects an MCP process reachable over stdio.
-- To customize the OpenAI model or temperature, edit the `ChatOpenAI(...)` constructor in `main.py`.
-
----
-
-If you'd like, I can:
-- add a `.env.example` file,
-- create a simple `requirements.txt` extracted from `uv.lock`, or
-- add a non-interactive script wrapper for automated queries.
 
